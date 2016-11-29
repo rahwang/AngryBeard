@@ -12,11 +12,15 @@ public class GameManager : MonoBehaviour {
     private string current_cast_string;
     public int level = 1;
 
+    SpellManager spellManager;
+    bool aimMode = false;
+
 	private UnityAction someListener;
 
 	// Use this for initialization
 	void Start () {
         current_cast_string = "";
+        spellManager = GameObject.Find("SpellManager").GetComponent<SpellManager>();
 	}
 	
 	// Update is called once per frame
@@ -53,17 +57,34 @@ public class GameManager : MonoBehaviour {
 
     public void TriggerSpellUI(Transform trans)
     {
-        Debug.Log("trigger spell ui");
-        // Instantiate spell ui
-        Quaternion spawn_rot = Quaternion.LookRotation(new Vector3(0, 3.8f, 0));
-        current_UI = (GameObject)Instantiate(SpellUI_prefab, trans.position, headset_trans.rotation);
-        Debug.Log(name);
+        if (spellManager.currElement == SpellManager.Element.None)
+        {
+            Debug.Log("trigger spell ui");
+            // Instantiate spell ui
+            Quaternion spawn_rot = Quaternion.LookRotation(new Vector3(0, 3.8f, 0));
+            current_UI = (GameObject)Instantiate(SpellUI_prefab, trans.position, headset_trans.rotation);
+            Debug.Log(name);
+        }
+        else {
+            aimMode = true;
+        }
     }
 
     public void UntriggerSpellUI()
     {
-        Destroy(current_UI);
-        current_cast_string = "";
+        if (aimMode)
+        {
+            //FIRE
+            Debug.Log("Fire Spell: " + spellManager.currElement);
+            spellManager.currElement = SpellManager.Element.None;
+            aimMode = false;
+        }
+        else
+        {
+            Destroy(current_UI);
+            spellManager.loadSpell(current_cast_string);
+            current_cast_string = "";
+        }
     }
 
     public void RegisterCastPoint(string name)

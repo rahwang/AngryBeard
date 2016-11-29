@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveToCastle : MonoBehaviour {
+public class EnemyScript : MonoBehaviour {
 
 	public float speed;
+    int health;
 
 	// Use this for initialization
 	void Start () {
