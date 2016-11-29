@@ -5,6 +5,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	float TowerHealth = 100.0f;
+    public int level = 1;
 
 	private UnityAction someListener;
 

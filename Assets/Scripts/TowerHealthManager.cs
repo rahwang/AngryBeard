@@ -14,7 +14,7 @@ public class TowerHealthManager : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if (col.CompareTag ("Enemy")) {
+		if (col.name.Contains ("Enemy")) {
 			EventManager.TriggerEvent ("towerTakeDamage");
 			Destroy (col.gameObject);
 			Debug.Log ("Tower hit");
