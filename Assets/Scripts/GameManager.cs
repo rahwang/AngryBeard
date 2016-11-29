@@ -5,12 +5,17 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	float TowerHealth = 100.0f;
+    public GameObject SpellUI_prefab;
+    public Transform headset_trans;
+
+    private GameObject current_UI;
+    private string current_cast_string;
 
 	private UnityAction someListener;
 
 	// Use this for initialization
 	void Start () {
-	
+        current_cast_string = "";
 	}
 	
 	// Update is called once per frame
@@ -44,4 +49,40 @@ public class GameManager : MonoBehaviour {
 	{
 		Debug.Log ("Some Other Function was called!");
 	}
+
+    public void TriggerSpellUI(Transform trans)
+    {
+        Debug.Log("trigger spell ui");
+        // Instantiate spell ui
+        Quaternion spawn_rot = Quaternion.LookRotation(new Vector3(0, 3.8f, 0));
+        current_UI = (GameObject)Instantiate(SpellUI_prefab, trans.position, headset_trans.rotation);
+        Debug.Log(name);
+    }
+
+    public void UntriggerSpellUI()
+    {
+        Destroy(current_UI);
+        current_cast_string = "";
+    }
+
+    public void RegisterCastPoint(string name)
+    {
+        if ( name.CompareTo("CastPoint (1)") == 0)
+        {
+            current_cast_string += "A";
+        }
+        else if (name.CompareTo("CastPoint (2)") == 0)
+        {
+            current_cast_string += "B";
+        }
+        else if (name.CompareTo("CastPoint (3)") == 0)
+        {
+            current_cast_string += "C";
+        }
+        else if (name.CompareTo("CastPoint (4)") == 0)
+        {
+            current_cast_string += "D";
+        }
+        Debug.Log(current_cast_string);
+    }
 }
