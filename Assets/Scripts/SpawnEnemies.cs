@@ -5,24 +5,36 @@ public class SpawnEnemies : MonoBehaviour {
 
 	public GameObject enemy_prefab;
 	public float spawn_distance = 10.0f;
+    public float spawn_frequency = 5.0f;
+    public int num_enemies;
+
+    GameObject gameManager;
+    int enemies_spawned;
 
 	// Use this for initialization
 	void Start () {
-		Spawn (10, enemy_prefab);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+        gameManager = GameObject.Find("GameManager");
+        enemies_spawned = 0;
 	}
 
-	void Spawn(int spawn_count, GameObject enemy_prefab) {
-		for (int i = 0; i < spawn_count; ++i) {
-			// Generate random direction
-			Vector3 dir = (new Vector3 ((Random.value * 2) - 1, 0, (Random.value * 2) - 1)).normalized;
-			Vector3 spawn_pos = dir * spawn_distance;
-			Quaternion spawn_rot = Quaternion.LookRotation (-(spawn_pos));
-			Instantiate (enemy_prefab, spawn_pos, spawn_rot);
-		}
+    // Update is called once per frame
+    float startTime = Time.time;
+    void Update() {
+        // Number of enemies on level
+        num_enemies = gameManager.GetComponent<GameManager>().level + 9;
+
+        // Spawn enemies if there are enemies left AND enough time has passed
+        if (enemies_spawned < num_enemies && Time.time - startTime > spawn_frequency) {
+                Spawn(enemy_prefab);
+                startTime = Time.time;
+                enemies_spawned++;
+        }
+    }
+
+	void Spawn(GameObject enemy_prefab) {
+		Vector3 dir = (new Vector3 ((Random.value * 2) - 1, 0, (Random.value * 2) - 1)).normalized;
+		Vector3 spawn_pos = dir * spawn_distance;
+		Quaternion spawn_rot = Quaternion.LookRotation (-(spawn_pos));
+		Instantiate (enemy_prefab, spawn_pos, spawn_rot);
 	}
 }

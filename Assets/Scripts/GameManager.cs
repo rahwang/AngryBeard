@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 
     private GameObject current_UI;
     private string current_cast_string;
+    public int level = 1;
 
 	private UnityAction someListener;
 
