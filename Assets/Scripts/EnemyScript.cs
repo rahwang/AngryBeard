@@ -4,11 +4,26 @@ using System.Collections;
 public class EnemyScript : MonoBehaviour {
 
 	public float speed;
-    int health;
+    public int health;
+    public SpellManager.Element type;
+    public Material FireMat, FrostMat, LightningMat, EarthMat;
 
 	// Use this for initialization
 	void Start () {
 		moveObjectBySpeed (transform.position, Vector3.zero, speed);
+        type = (SpellManager.Element)Random.Range(0, 3);
+
+        switch (type)
+        {
+            case SpellManager.Element.Fire: gameObject.GetComponent<Renderer>().material = FireMat;
+                break;
+            case SpellManager.Element.Frost: gameObject.GetComponent<Renderer>().material = FrostMat;
+                break;
+            case SpellManager.Element.Lightning: gameObject.GetComponent<Renderer>().material = LightningMat;
+                break;
+            case SpellManager.Element.Earth: gameObject.GetComponent<Renderer>().material = EarthMat;
+                break;
+        }
 	}
 	
 	// Update is called once per frame

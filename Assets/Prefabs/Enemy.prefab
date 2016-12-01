@@ -40,10 +40,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23000013212886428
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -119,3 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  health: 0
+  type: 0
+  FireMat: {fileID: 2100000, guid: ac02f33b192db234bac3579bda92e267, type: 2}
+  FrostMat: {fileID: 2100000, guid: 9963a519d503fa443880f76b25684198, type: 2}
+  LightningMat: {fileID: 2100000, guid: af638d9dc92bbc440a66242c139ae824, type: 2}
+  EarthMat: {fileID: 2100000, guid: a9d8a49b5b84b4349b56f41d2fd01470, type: 2}
