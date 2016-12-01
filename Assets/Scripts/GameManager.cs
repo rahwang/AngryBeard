@@ -3,8 +3,8 @@ using UnityEngine.Events;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
+    public bool playing;
 
-	float TowerHealth = 100.0f;
     public GameObject SpellUI_prefab;
     public Transform headset_trans;
 
@@ -25,7 +25,9 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (!playing) {
+            // LOSE CONDITION
+        }
 	}
 
 	void Awake ()

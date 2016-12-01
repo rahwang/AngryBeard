@@ -4,7 +4,7 @@ using System.Collections;
 public class SpawnEnemies : MonoBehaviour {
 
 	public GameObject enemy_prefab;
-	public float spawn_distance = 10.0f;
+	public float spawn_distance = 20.0f;
     public float spawn_frequency = 5.0f;
     public int num_enemies;
 

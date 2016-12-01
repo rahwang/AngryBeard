@@ -2,10 +2,13 @@
 using System.Collections;
 
 public class TowerHealthManager : MonoBehaviour {
+    int towerHealth = 100;
+    GameManager gameManager;
+
 
 	// Use this for initialization
 	void Start () {
-	
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -18,6 +21,10 @@ public class TowerHealthManager : MonoBehaviour {
 			EventManager.TriggerEvent ("towerTakeDamage");
 			Destroy (col.gameObject);
 			Debug.Log ("Tower hit");
+            towerHealth -= 10;
+            if (towerHealth <= 0) {
+                gameManager.playing = false;
+            }
 		}
 	}
 }
