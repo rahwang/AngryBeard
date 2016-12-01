@@ -71,6 +71,9 @@ public class ManageInput : MonoBehaviour {
 
     void TurnPointerOff()
     {
+        // Store last pointer tip position
+        Vector3 hit_pos = pointer_script.pointerTip.transform.position;
+        game_manager.InstanceSpellHit(hit_pos);
         pointer_script.enabled = false;
         //Debug.Log("aim mode disable was called!");
     }

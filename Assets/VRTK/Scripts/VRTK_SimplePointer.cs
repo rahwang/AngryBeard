@@ -29,8 +29,7 @@ namespace VRTK
 
         private GameObject pointerHolder;
         private GameObject pointer;
-        private GameObject pointerTip;
-        //        public Vector3 pointerTipScale = new Vector3(0.05f, 0.05f, 0.05f);
+        public GameObject pointerTip;
         public Vector3 pointerTipScale = new Vector3(0.5f, 0.5f, 0.5f);
         // material of customPointerCursor (if defined)
         private Material customPointerMaterial;

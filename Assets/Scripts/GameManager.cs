@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     public SpellManager spellManager;
     bool aimMode = false;
 
+    public GameObject spell_prefab;
+
 	private UnityAction someListener;
 
 	// Use this for initialization
@@ -92,6 +94,14 @@ public class GameManager : MonoBehaviour {
             spellManager.loadSpell(current_cast_string);
             current_cast_string = "";
         }
+    }
+
+
+    public void InstanceSpellHit(Vector3 hit_point)
+    {
+        Vector3 spawn_pos = hit_point;
+        Quaternion spawn_rot = Quaternion.LookRotation(-(spawn_pos));
+        Instantiate(spell_prefab, spawn_pos, spawn_rot);
     }
 
     public void RegisterCastPoint(string name)
