@@ -10,21 +10,30 @@ public class EnemyScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		moveObjectBySpeed (transform.position, Vector3.zero, speed);
         type = (SpellManager.Element)Random.Range(0, 3);
 
         switch (type)
         {
             case SpellManager.Element.Fire: gameObject.GetComponent<Renderer>().material = FireMat;
+                health = 10;
+                speed = 1;
                 break;
             case SpellManager.Element.Frost: gameObject.GetComponent<Renderer>().material = FrostMat;
+                health = 20;
+                speed = 0.5f;
                 break;
             case SpellManager.Element.Lightning: gameObject.GetComponent<Renderer>().material = LightningMat;
+                health = 10;
+                speed = 1;
                 break;
             case SpellManager.Element.Earth: gameObject.GetComponent<Renderer>().material = EarthMat;
+                health = 20;
+                speed = 0.5f;
                 break;
         }
-	}
+
+        moveObjectBySpeed(transform.position, Vector3.zero, speed);
+    }
 	
 	// Update is called once per frame
 	void Update () {
