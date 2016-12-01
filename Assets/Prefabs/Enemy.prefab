@@ -24,7 +24,7 @@ GameObject:
   - 23: {fileID: 23000013212886428}
   - 114: {fileID: 114000011379967926}
   - 54: {fileID: 54000011320242286}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010876515444}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -12.130417, y: 3.8548, z: 8.8942}
+  m_LocalScale: {x: 0.21146852, y: 0.21146852, z: 0.21146852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010876515444}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 1eafb9beddbdaf34e8fcb80fa79716ff, type: 3}
 --- !u!54 &54000011320242286
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -105,7 +105,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 10, y: 10, z: 7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114000011379967926
 MonoBehaviour:

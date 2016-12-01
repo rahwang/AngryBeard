@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     private string current_cast_string;
     public int level = 1;
 
-    SpellManager spellManager;
+    public SpellManager spellManager;
     bool aimMode = false;
 
 	private UnityAction someListener;
@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour {
         }
         else {
             aimMode = true;
+            // Aiming
+            EventManager.TriggerEvent("AimModeEnable");
+            //START POINTER
         }
     }
 
@@ -74,10 +77,12 @@ public class GameManager : MonoBehaviour {
     {
         if (aimMode)
         {
+            //STOP POINTER
             //FIRE
             Debug.Log("Fire Spell: " + spellManager.currElement);
             spellManager.currElement = SpellManager.Element.None;
             aimMode = false;
+            EventManager.TriggerEvent("AimModeDisable");
         }
         else
         {

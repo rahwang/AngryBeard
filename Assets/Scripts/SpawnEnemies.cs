@@ -33,7 +33,7 @@ public class SpawnEnemies : MonoBehaviour {
 
 	void Spawn(GameObject enemy_prefab) {
 		Vector3 dir = (new Vector3 ((Random.value * 2) - 1, 0, (Random.value * 2) - 1)).normalized;
-		Vector3 spawn_pos = dir * spawn_distance;
+		Vector3 spawn_pos = dir * spawn_distance + Vector3.up*0.8f;
 		Quaternion spawn_rot = Quaternion.LookRotation (-(spawn_pos));
 		Instantiate (enemy_prefab, spawn_pos, spawn_rot);
 	}

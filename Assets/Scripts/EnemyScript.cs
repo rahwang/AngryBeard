@@ -10,7 +10,7 @@ public class EnemyScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		moveObjectBySpeed (transform.position, Vector3.zero, speed);
+		moveObjectBySpeed (transform.position, Vector3.up*0.8f, speed);
         type = (SpellManager.Element)Random.Range(0, 3);
 
         switch (type)
