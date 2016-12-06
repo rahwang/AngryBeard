@@ -5,11 +5,11 @@ public class SpellHitEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        Invoke("SelfDestruct", 2.0f);
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 
@@ -19,7 +19,6 @@ public class SpellHitEffect : MonoBehaviour {
         {
             Destroy(col.gameObject);
         }
-        Invoke("SelfDestruct", 2.0f);
     }
 
     void SelfDestruct()

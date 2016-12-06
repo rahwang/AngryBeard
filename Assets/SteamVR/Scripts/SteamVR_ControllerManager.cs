@@ -17,8 +17,8 @@ public class SteamVR_ControllerManager : MonoBehaviour
 	bool[] connected = new bool[OpenVR.k_unMaxTrackedDeviceCount]; // controllers only
 
 	// cached roles - may or may not be connected
-	uint leftIndex = OpenVR.k_unTrackedDeviceIndexInvalid;
-	uint rightIndex = OpenVR.k_unTrackedDeviceIndexInvalid;
+	public uint leftIndex = OpenVR.k_unTrackedDeviceIndexInvalid;
+	public uint rightIndex = OpenVR.k_unTrackedDeviceIndexInvalid;
 
 	void Awake()
 	{

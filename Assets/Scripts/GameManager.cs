@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour {
     public SpellManager spellManager;
     bool aimMode = false;
 
-    public GameObject spell_prefab;
-
 	private UnityAction someListener;
 
 	// Use this for initialization
@@ -51,30 +49,33 @@ public class GameManager : MonoBehaviour {
 
 	void DamageTower ()
 	{
-		Debug.Log ("Some Function was called!");
+		//Debug.Log ("Some Function was called!");
 	}
 
 	void SomeFunction ()
 	{
-		Debug.Log ("Some Other Function was called!");
+		//Debug.Log ("Some Other Function was called!");
 	}
+
+    public void StartAimMode()
+    {
+        aimMode = true;
+        // Aiming
+        //Debug.Log("Aim mode enabled");
+        EventManager.TriggerEvent("AimModeEnable");
+        current_cast_string = "";
+        Destroy(current_UI);
+        //START POINTER
+
+    }
 
     public void TriggerSpellUI(Transform trans)
     {
-        if (spellManager.currElement == SpellManager.Element.None)
-        {
             Debug.Log("trigger spell ui");
             // Instantiate spell ui
             Quaternion spawn_rot = Quaternion.LookRotation(new Vector3(0, 3.8f, 0));
             current_UI = (GameObject)Instantiate(SpellUI_prefab, trans.position, headset_trans.rotation);
             Debug.Log(name);
-        }
-        else {
-            aimMode = true;
-            // Aiming
-            EventManager.TriggerEvent("AimModeEnable");
-            //START POINTER
-        }
     }
 
     public void UntriggerSpellUI()
@@ -84,14 +85,13 @@ public class GameManager : MonoBehaviour {
             //STOP POINTER
             //FIRE
             Debug.Log("Fire Spell: " + spellManager.currElement);
+            EventManager.TriggerEvent("AimModeDisable");
             spellManager.currElement = SpellManager.Element.None;
             aimMode = false;
-            EventManager.TriggerEvent("AimModeDisable");
         }
         else
         {
             Destroy(current_UI);
-            spellManager.loadSpell(current_cast_string);
             current_cast_string = "";
         }
     }
@@ -100,7 +100,9 @@ public class GameManager : MonoBehaviour {
     public void InstanceSpellHit(Vector3 hit_point)
     {
         Vector3 spawn_pos = hit_point;
-        Quaternion spawn_rot = Quaternion.LookRotation(-(spawn_pos));
+        //Quaternion spawn_rot = Quaternion.LookRotation(-(spawn_pos));
+        Quaternion spawn_rot = spellManager.getCurrentSpellRotation();
+        GameObject spell_prefab = spellManager.getCurrentSpellEffect();
         Instantiate(spell_prefab, spawn_pos, spawn_rot);
     }
 
@@ -121,6 +123,11 @@ public class GameManager : MonoBehaviour {
         else if (name.CompareTo("CastPoint (4)") == 0)
         {
             current_cast_string += "D";
+        }
+        EventManager.TriggerEvent("HapticPing");
+        if (spellManager.loadSpell(current_cast_string))
+        {
+            StartAimMode();
         }
         Debug.Log(current_cast_string);
     }
