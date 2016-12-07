@@ -10,9 +10,14 @@ public class EnemyScript : MonoBehaviour {
     public SpellManager.Element type;
     public Material FireMat, FrostMat, LightningMat, EarthMat;
 
+    private bool stunned = false;
+    private bool slowed = false;
+
+    private float speed_scale_factor = 0.1f;
+
 	// Use this for initialization
 	void Start () {
-		moveObjectBySpeed (transform.position, Vector3.up*0.8f, speed);
+		//moveObjectBySpeed (transform.position, Vector3.up*0.8f, speed);
         type = (SpellManager.Element)Random.Range(0, 4);
 
         switch (type)
@@ -35,7 +40,7 @@ public class EnemyScript : MonoBehaviour {
                 break;
         }
 
-        moveObjectBySpeed(transform.position, Vector3.zero, speed);
+        moveObjectBySpeed(transform.position, Vector3.zero);
     }
 
     // Update is called once per frame
@@ -46,35 +51,63 @@ public class EnemyScript : MonoBehaviour {
 	    switch (effect) {
             case SpellManager.Element.Frost:
                 frostTime = Time.time;
-                speed /= 2.0f;
+                StartCoroutine(slow(slowTime));
                 break;
             case SpellManager.Element.Earth:
                 earthTime = Time.time;
-                speed = 0.0f;
+                StartCoroutine(stun(stunTime));
                 break;
             default:
-                if (Time.time - frostTime > slowTime && Time.time - earthTime > stunTime) {
-                    speed = baseSpeed;
-                }
                 break;
         }
-	}
+        effect = SpellManager.Element.None;
+    }
 
-	void moveObjectBySpeed(Vector3 source, Vector3 target, float speed)
-	{
-		float pathLength = (target - source).magnitude;
-		float duration = pathLength / speed;
-		StartCoroutine(moveObject(source, target, duration));
-	}
+    IEnumerator slow(float duration)
+    {
+        slowed = true;
+        speed /= 2;
+        float startTime = Time.time;
+        while (Time.time < startTime + duration)
+        {
+            yield return null;
+        }
+        slowed = false;
+        if (!stunned)
+        {
+            speed = baseSpeed;
+        }
+    }
 
-	IEnumerator moveObject(Vector3 source, Vector3 target, float duration)
-	{
-		float startTime = Time.time;
-		while(Time.time < startTime + duration)
-		{
-			transform.position = Vector3.Lerp(source, target, (Time.time - startTime) / duration);
-			yield return null;
-		}
-		transform.position = target;
-	}
+    IEnumerator stun(float duration)
+    {
+        stunned = true;
+        speed = 0;
+        float startTime = Time.time;
+        while (Time.time < startTime + duration)
+        {
+            yield return null;
+        }
+        stunned = false;
+        speed = baseSpeed;
+        if (slowed)
+        {
+            speed /= 2;
+        }
+    }
+
+    void moveObjectBySpeed(Vector3 source, Vector3 target)
+    {
+        StartCoroutine(moveObject(source, target));
+    }
+
+    IEnumerator moveObject(Vector3 source, Vector3 target)
+    {
+        while ((target - source).magnitude > 0.1f)
+        {
+            transform.position += (target - source) * Time.deltaTime * speed * speed_scale_factor;
+            yield return null;
+        }
+        transform.position = target;
+    }
 }
