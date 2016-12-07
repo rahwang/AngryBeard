@@ -103,8 +103,10 @@ public class GameManager : MonoBehaviour {
         //Quaternion spawn_rot = Quaternion.LookRotation(-(spawn_pos));
         Quaternion spawn_rot = spellManager.getCurrentSpellRotation();
         GameObject spell_prefab = spellManager.getCurrentSpellEffect();
-        GameObject temp = (GameObject)Instantiate(spell_prefab, spawn_pos, spawn_rot);
-        temp.transform.localScale = spellManager.getCurrentSpellRadius();
+        GameObject spell = (GameObject) Instantiate(spell_prefab, spawn_pos, spawn_rot);
+        spell.GetComponent<SpellHitEffect>().type = spellManager.currElement;
+        spell.transform.localScale = spellManager.getCurrentSpellRadius();
+
     }
 
     public void RegisterCastPoint(string name)
