@@ -7,6 +7,7 @@ public class SpellManager : MonoBehaviour {
     public GameObject frost_effect;
     public GameObject earth_effect;
     public GameObject lightning_effect;
+    public GameManager gameManager;
 
     public enum Element
     {
@@ -23,6 +24,7 @@ public class SpellManager : MonoBehaviour {
     // Use this for initialization
     void Start() {
         currElement = Element.None;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -100,12 +102,31 @@ public class SpellManager : MonoBehaviour {
         switch (spell)
         {
             case "ACDBC": currElement = Element.Fire;
+                if (gameManager.mana < 10) {
+                    return false;
+                }
+                gameManager.mana -= 10;
                 return true;
             case "ABCDA": currElement = Element.Earth;
+                if (gameManager.mana < 10)
+                {
+                    return false;
+                }
+                gameManager.mana -= 10;
                 return true;
             case "ADBC": currElement = Element.Lightning;
+                if (gameManager.mana < 10)
+                {
+                    return false;
+                }
+                gameManager.mana -= 10;
                 return true;
             case "DBCD": currElement = Element.Frost;
+                if (gameManager.mana < 10)
+                {
+                    return false;
+                }
+                gameManager.mana -= 10;
                 return true;
             default: currElement = Element.None;
                 return false;

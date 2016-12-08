@@ -17,10 +17,16 @@ public class GameManager : MonoBehaviour {
 
 	private UnityAction someListener;
 
+    public int mana;
+    public Material manaSphere;
+    public bool mana_charging_on = false;
+
 	// Use this for initialization
 	void Start () {
+        mana = 100;
         current_cast_string = "";
         spellManager = GameObject.Find("SpellManager").GetComponent<SpellManager>();
+        manaSphere = GameObject.Find("ManaSphere").GetComponent<Renderer>().material;
 	}
 	
 	// Update is called once per frame
@@ -32,29 +38,21 @@ public class GameManager : MonoBehaviour {
 
 	void Awake ()
 	{
-		someListener = new UnityAction (SomeFunction);
 	}
 
 	void OnEnable ()
 	{
-		EventManager.StartListening ("test", someListener);
 		EventManager.StartListening ("towerTakeDamage", DamageTower);
 	}
 
 	void OnDisable ()
 	{
-		EventManager.StopListening ("test", someListener);
 		EventManager.StopListening ("towerTakeDamage", DamageTower);
 	}
 
 	void DamageTower ()
 	{
 		//Debug.Log ("Some Function was called!");
-	}
-
-	void SomeFunction ()
-	{
-		//Debug.Log ("Some Other Function was called!");
 	}
 
     public void StartAimMode()
@@ -65,6 +63,7 @@ public class GameManager : MonoBehaviour {
         EventManager.TriggerEvent("AimModeEnable");
         current_cast_string = "";
         Destroy(current_UI);
+        EventManager.TriggerEvent("DisableTrail");
         //START POINTER
 
     }
@@ -75,7 +74,8 @@ public class GameManager : MonoBehaviour {
             // Instantiate spell ui
             Quaternion spawn_rot = Quaternion.LookRotation(new Vector3(0, 3.8f, 0));
             current_UI = (GameObject)Instantiate(SpellUI_prefab, trans.position, headset_trans.rotation);
-            Debug.Log(name);
+        EventManager.TriggerEvent("EnableTrail");
+        Debug.Log(name);
     }
 
     public void UntriggerSpellUI()
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
+            EventManager.TriggerEvent("DisableTrail");
             Destroy(current_UI);
             current_cast_string = "";
         }
@@ -131,7 +132,25 @@ public class GameManager : MonoBehaviour {
         if (spellManager.loadSpell(current_cast_string))
         {
             StartAimMode();
+            Color newMana = new Color(0, 0, mana / 100.0f);
+            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
+            //manaSphere.SetColor("_Color", newMana);
         }
         Debug.Log(current_cast_string);
+    }
+
+    public IEnumerator ChargeMana()
+    {
+        // STOP COROUTINE WHEN LET GO OR LOWER WAND
+        while (mana <= 90 && mana_charging_on)
+        {
+            mana += 10;
+            Color newMana = new Color(0, 0, mana / 100.0f);
+            //manaSphere.SetColor("_Color", newMana);
+            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
+            // replace with haptic pulse
+            Debug.Log("gained mana to " + mana);
+            yield return new WaitForSeconds(1);
+        }
     }
 }

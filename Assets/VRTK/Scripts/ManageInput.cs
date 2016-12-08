@@ -13,12 +13,15 @@ public class ManageInput : MonoBehaviour {
     private UnityAction pointerOffListener;
     private UnityAction hapticPing;
     private UnityAction hapticPulse;
+    private UnityAction trailOnListener;
+    private UnityAction trailOffListener;
 
     private VRTK_ControllerActions controller_actions;
     private VRTK_ControllerEvents controller_events;
 
     private VRTK_SimplePointer pointer_script;
     private SteamVR_ControllerManager controller_manager;
+    private TrailRenderer trail_renderer;
 
     public GameObject camera_rig;
     public bool isLeft;
@@ -33,6 +36,7 @@ public class ManageInput : MonoBehaviour {
         controller_manager = camera_rig.GetComponent<SteamVR_ControllerManager>();
         controller_events = GetComponent<VRTK_ControllerEvents>();
         controller_actions = GetComponent<VRTK_ControllerActions>();
+        trail_renderer = GetComponent<TrailRenderer>();
 	}
 
 
@@ -42,6 +46,8 @@ public class ManageInput : MonoBehaviour {
         pointerOffListener = new UnityAction(TurnPointerOff);
         hapticPing = new UnityAction(HapticPing);
         hapticPulse = new UnityAction(HapticPulse);
+        trailOnListener = new UnityAction(TurnTrailOn);
+        trailOffListener = new UnityAction(TurnTrailOff);
     }
 
     void OnEnable()
@@ -50,6 +56,8 @@ public class ManageInput : MonoBehaviour {
         EventManager.StartListening("AimModeDisable", pointerOffListener);
         EventManager.StartListening("HapticPing", hapticPing);
         EventManager.StartListening("HapticPulse", hapticPulse);
+        EventManager.StartListening("EnableTrail", trailOnListener);
+        EventManager.StartListening("DisableTrail", trailOffListener);
     }
 
     void OnDisable()
@@ -58,6 +66,8 @@ public class ManageInput : MonoBehaviour {
         EventManager.StopListening("AimModeDisable", pointerOffListener);
         EventManager.StopListening("HapticPing", hapticPing);
         EventManager.StopListening("HapticPulse", hapticPulse);
+        EventManager.StopListening("EnableTrail", trailOnListener);
+        EventManager.StopListening("DisableTrail", trailOffListener);
     }
 
     void HapticPulse(float collisionForce)
@@ -70,7 +80,15 @@ public class ManageInput : MonoBehaviour {
         controller_actions.TriggerHapticPulse((ushort)3000, 0.5f, 0.01f);
     }
 
+    void TurnTrailOn()
+    {
+         trail_renderer.enabled = true; 
+    }
 
+    void TurnTrailOff()
+    {
+        trail_renderer.enabled = false;
+    }
 
     void HapticPing()
     {
@@ -104,23 +122,57 @@ public class ManageInput : MonoBehaviour {
     {
         // Store last pointer tip position
         Vector3 hit_pos = pointer_script.pointerTip.transform.position;
+        GetComponent<AudioSource>().Play();
         game_manager.InstanceSpellHit(hit_pos);
         HapticPulse(3000);
         pointer_script.enabled = false;
         //Debug.Log("aim mode disable was called!");
     }
 
+    void SpellbookEnable()
+    {
+
+    }
+
+    void SpellbookDisable()
+    {
+
+    }
+
     // Update is called once per frame
     void Update () {
         device = SteamVR_Controller.Input((int)tracked_object.index);
+        if (transform.position.y < game_manager.headset_trans.position.y)
+        {
+            game_manager.mana_charging_on = false;
+        }
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
-            game_manager.TriggerSpellUI(transform);
+            // Mana charge mode
+            if (transform.position.y > game_manager.headset_trans.position.y) {
+                game_manager.mana_charging_on = true;
+                StartCoroutine(game_manager.ChargeMana());
+            }
+            // Spell cast
+            else
+            {
+                game_manager.TriggerSpellUI(transform);
+            }
+           
             //Debug.Log("trigger pressed :D " + transform.position.x);
         }
         if (device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
         {
             game_manager.UntriggerSpellUI();
+            game_manager.mana_charging_on = false;
+        }
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        {
+            SpellbookEnable();
+        }
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        {
+            SpellbookDisable();
         }
     }
 }

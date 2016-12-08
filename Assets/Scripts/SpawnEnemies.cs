@@ -4,8 +4,8 @@ using System.Collections;
 public class SpawnEnemies : MonoBehaviour {
 
 	public GameObject enemy_prefab;
-	public float spawn_distance = 20.0f;
-    public float spawn_frequency = 5.0f;
+	public float spawn_distance;
+    public float spawn_frequency;
     public int num_enemies;
 
     GameObject gameManager;
@@ -21,7 +21,7 @@ public class SpawnEnemies : MonoBehaviour {
     float startTime = Time.time;
     void Update() {
         // Number of enemies on level
-        num_enemies = gameManager.GetComponent<GameManager>().level + 9;
+        num_enemies = gameManager.GetComponent<GameManager>().level + 19;
 
         // Spawn enemies if there are enemies left AND enough time has passed
         if (enemies_spawned < num_enemies && Time.time - startTime > spawn_frequency) {
