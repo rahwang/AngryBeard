@@ -120,8 +120,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   health: 0
+  effect: 0
   type: 0
   FireMat: {fileID: 2100000, guid: ac02f33b192db234bac3579bda92e267, type: 2}
   FrostMat: {fileID: 2100000, guid: 9963a519d503fa443880f76b25684198, type: 2}
   LightningMat: {fileID: 2100000, guid: af638d9dc92bbc440a66242c139ae824, type: 2}
   EarthMat: {fileID: 2100000, guid: a9d8a49b5b84b4349b56f41d2fd01470, type: 2}
+  heart: {fileID: 1000010859676686, guid: e31d36c9346ef164382e358ccdcaa974, type: 2}
+  enemyHealth: []

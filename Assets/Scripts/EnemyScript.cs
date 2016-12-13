@@ -10,6 +10,9 @@ public class EnemyScript : MonoBehaviour {
     public SpellManager.Element type;
     public Material FireMat, FrostMat, LightningMat, EarthMat;
 
+    public GameObject heart;
+    public GameObject[] enemyHealth;
+
     private bool stunned = false;
     private bool slowed = false;
 
@@ -38,6 +41,19 @@ public class EnemyScript : MonoBehaviour {
                 health = 20;
                 baseSpeed = speed = 0.125f;
                 break;
+        }
+        
+        int numHearts = health / 10;
+        enemyHealth = new GameObject[numHearts];
+        for (int i = 0; i < numHearts; i++) {
+            float offset = 0.0f;
+            if (numHearts % 2 == 0) {
+                offset = 0.5f;
+            }
+            Vector3 heartPos = transform.position + (Vector3.up * 2) + (transform.right * (i - (numHearts/2) + offset));
+            Quaternion heartOri = transform.rotation;
+            enemyHealth[i] = (GameObject)Instantiate(heart, heartPos, heartOri);
+            enemyHealth[i].transform.parent = transform;
         }
 
         moveObjectBySpeed(transform.position, Vector3.zero);

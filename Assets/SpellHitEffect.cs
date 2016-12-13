@@ -18,21 +18,30 @@ public class SpellHitEffect : MonoBehaviour {
     {
         if (col.name.Contains("Enemy")) {
             col.gameObject.GetComponent<EnemyScript>().effect = type;
+            int lostHealth = 0;
 
             switch (type) {
                 case SpellManager.Element.Fire:
-                    col.gameObject.GetComponent<EnemyScript>().health -= 20;
+                    lostHealth = 20;
                     break;
                 case SpellManager.Element.Earth:
-                    col.gameObject.GetComponent<EnemyScript>().health -= 10;
+                    lostHealth = 10;
                     break;
                 case SpellManager.Element.Lightning:
-                    col.gameObject.GetComponent<EnemyScript>().health -= 20;
+                    lostHealth = 20;
                     break;
                 case SpellManager.Element.Frost:
-                    col.gameObject.GetComponent<EnemyScript>().health -= 10;
+                    lostHealth = 10;
                     break;
                 default: break;
+            }
+
+            int numHearts = col.gameObject.GetComponent<EnemyScript>().health / 10;
+            col.gameObject.GetComponent<EnemyScript>().health -= lostHealth;
+            for (int i = 0; i < lostHealth / 2; i++) {
+                if (numHearts <= 0) break;
+                Destroy(col.gameObject.GetComponent<EnemyScript>().enemyHealth[numHearts - 1]);
+                numHearts--;
             }
 
             if (col.gameObject.GetComponent<EnemyScript>().health <= 0) {
