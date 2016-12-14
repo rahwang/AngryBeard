@@ -103,6 +103,7 @@ public class SpellManager : MonoBehaviour {
     {
         if (gameManager.mana < manaCost)
         {
+            EventManager.TriggerEvent("ManaEmpty");
             return false;
         }
         gameManager.mana -= manaCost;

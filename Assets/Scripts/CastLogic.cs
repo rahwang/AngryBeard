@@ -17,9 +17,9 @@ public class CastLogic : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("collision!");
         if (col.CompareTag("CastPoint"))
         {
+            col.gameObject.GetComponent<AudioSource>().Play();
             game_manager.RegisterCastPoint(col.gameObject.name);
         }
     }
