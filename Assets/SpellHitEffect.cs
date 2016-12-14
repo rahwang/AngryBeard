@@ -3,9 +3,11 @@ using System.Collections;
 
 public class SpellHitEffect : MonoBehaviour {
     public SpellManager.Element type;
+    GameObject gameManager;
 
 	// Use this for initialization
 	void Start () {
+        gameManager = GameObject.Find("GameManager");
         Invoke("SelfDestruct", 2.0f);
     }
 
@@ -16,7 +18,7 @@ public class SpellHitEffect : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.name.Contains("Enemy")) {
+        if (col.CompareTag("Enemy")) {
             col.gameObject.GetComponent<EnemyScript>().effect = type;
             int lostHealth = 0;
 
@@ -46,6 +48,8 @@ public class SpellHitEffect : MonoBehaviour {
 
             if (col.gameObject.GetComponent<EnemyScript>().health <= 0) {
                 Destroy(col.gameObject);
+                gameManager.GetComponent<GameManager>().numEnemiesKilled++;
+                Debug.Log(gameManager.GetComponent<GameManager>().numEnemiesKilled);
             }
         }
     }

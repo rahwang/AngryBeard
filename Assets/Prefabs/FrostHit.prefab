@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000010526400972}
   - 198: {fileID: 198000012327650324}
   - 199: {fileID: 199000014100087704}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: KYsmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - 4: {fileID: 4000010345534096}
   - 198: {fileID: 198000012684909888}
   - 199: {fileID: 199000010083216630}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ErekiSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - 4: {fileID: 4000011565802968}
   - 108: {fileID: 108000010063695626}
   - 114: {fileID: 114000013359044242}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - 135: {fileID: 135000010870565846}
   - 23: {fileID: 23000010282077370}
   - 114: {fileID: 114000014064940508}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FrostHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   - 4: {fileID: 4000013284094220}
   - 198: {fileID: 198000011049223418}
   - 199: {fileID: 199000010902733692}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ErekiSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - 4: {fileID: 4000013733266296}
   - 198: {fileID: 198000013227589112}
   - 199: {fileID: 199000011026952980}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: energyBlast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - 4: {fileID: 4000010308985134}
   - 198: {fileID: 198000014049838598}
   - 199: {fileID: 199000013835025622}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: KYdustD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d10446135619438ae49bffd188f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
 --- !u!135 &135000010870565846
 SphereCollider:
   m_ObjectHideFlags: 1

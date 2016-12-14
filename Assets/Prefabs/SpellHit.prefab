@@ -23,7 +23,7 @@ GameObject:
   - 135: {fileID: 135000014160290802}
   - 23: {fileID: 23000011487283176}
   - 114: {fileID: 114000011872426526}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpellHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d10446135619438ae49bffd188f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
 --- !u!135 &135000014160290802
 SphereCollider:
   m_ObjectHideFlags: 1

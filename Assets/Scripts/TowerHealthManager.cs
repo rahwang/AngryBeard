@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class TowerHealthManager : MonoBehaviour {
-    int towerHealth = 100;
+    public int towerHealth = 100;
     GameManager gameManager;
     public GameObject Heart;
     Object[] hearts;
@@ -31,7 +31,7 @@ public class TowerHealthManager : MonoBehaviour {
             Destroy(hearts[towerHealth / 10]);
             GetComponent<AudioSource>().Play();
             if (towerHealth <= 0) {
-                gameManager.playing = false;
+                gameManager.lose = true;
             }
 		}
 	}

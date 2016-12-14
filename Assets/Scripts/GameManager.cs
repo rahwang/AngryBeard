@@ -3,7 +3,12 @@ using UnityEngine.Events;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
-    public bool playing;
+    public bool lose;
+    public int numEnemiesKilled = 0;
+    GameObject endText;
+
+    public AudioClip victory_sound;
+    public AudioClip fail_sound;
 
     public GameObject SpellUI_prefab;
     public Transform headset_trans;
@@ -21,18 +26,35 @@ public class GameManager : MonoBehaviour {
     public Material manaSphere;
     public bool mana_charging_on = false;
 
+    public TowerHealthManager tower;
+
 	// Use this for initialization
 	void Start () {
         mana = 100;
         current_cast_string = "";
         spellManager = GameObject.Find("SpellManager").GetComponent<SpellManager>();
+        endText = GameObject.Find("EndText");
+        lose = false;
         manaSphere = GameObject.Find("ManaSphere").GetComponent<Renderer>().material;
+        //tower = GameObject.Find("Tower").GetComponent<TowerHealthManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    if (!playing) {
-            // LOSE CONDITION
+	    if (lose) {
+            endText.GetComponent<TextMesh>().text = "You lose! <}:>( >";
+            endText.GetComponent<AudioSource>().clip = fail_sound;
+            endText.GetComponent<AudioSource>().Play();
+
+            lose = !lose;
+        }
+        int numLivesLost = (100 - tower.towerHealth) / 10;
+        if (numEnemiesKilled + numLivesLost == GetComponent<SpawnEnemies>().num_enemies)
+        {
+            endText.GetComponent<TextMesh>().text = "You win! <}:>D >";
+            endText.GetComponent<AudioSource>().clip = victory_sound;
+            endText.GetComponent<AudioSource>().Play();
+            numEnemiesKilled = 0;
         }
 	}
 

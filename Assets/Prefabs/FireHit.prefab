@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000013766386694}
   - 198: {fileID: 198000012765865334}
   - 199: {fileID: 199000013511243632}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: fireShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - 135: {fileID: 135000011340346792}
   - 23: {fileID: 23000012697674646}
   - 114: {fileID: 114000011188918672}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FireHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - 4: {fileID: 4000010444772134}
   - 198: {fileID: 198000011227415788}
   - 199: {fileID: 199000012609136862}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: frames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - 4: {fileID: 4000010661465732}
   - 108: {fileID: 108000013424958362}
   - 114: {fileID: 114000011854724502}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d10446135619438ae49bffd188f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
 --- !u!114 &114000011854724502
 MonoBehaviour:
   m_ObjectHideFlags: 1

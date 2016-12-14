@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000013215109498}
   - 198: {fileID: 198000010820359252}
   - 199: {fileID: 199000013238050158}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - 135: {fileID: 135000012924866744}
   - 23: {fileID: 23000014144850458}
   - 114: {fileID: 114000010060560672}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LightningHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - 4: {fileID: 4000011316207762}
   - 108: {fileID: 108000013318333196}
   - 114: {fileID: 114000013283421336}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - 4: {fileID: 4000010839052934}
   - 198: {fileID: 198000010884468976}
   - 199: {fileID: 199000013343974270}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ErekiSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d10446135619438ae49bffd188f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
 --- !u!114 &114000013283421336
 MonoBehaviour:
   m_ObjectHideFlags: 1
