@@ -134,7 +134,6 @@ public class GameManager : MonoBehaviour {
             StartAimMode();
             Color newMana = new Color(0, 0, mana / 100.0f);
             GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
-            //manaSphere.SetColor("_Color", newMana);
         }
         Debug.Log(current_cast_string);
     }

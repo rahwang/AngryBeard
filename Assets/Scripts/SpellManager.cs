@@ -97,37 +97,30 @@ public class SpellManager : MonoBehaviour {
         return result;
     }
 
+    // if sufficent mana, subtract given mana cost from pool,
+    // else return false.
+    bool checkSufficientMana(int manaCost)
+    {
+        if (gameManager.mana < manaCost)
+        {
+            return false;
+        }
+        gameManager.mana -= manaCost;
+        return true;
+    }
+
     public bool loadSpell(string spell)
     {
         switch (spell)
         {
             case "ACDBC": currElement = Element.Fire;
-                if (gameManager.mana < 10) {
-                    return false;
-                }
-                gameManager.mana -= 10;
-                return true;
+                return checkSufficientMana(10);
             case "ABCDA": currElement = Element.Earth;
-                if (gameManager.mana < 10)
-                {
-                    return false;
-                }
-                gameManager.mana -= 10;
-                return true;
+                return checkSufficientMana(10);
             case "ADBC": currElement = Element.Lightning;
-                if (gameManager.mana < 10)
-                {
-                    return false;
-                }
-                gameManager.mana -= 10;
-                return true;
+                return checkSufficientMana(10);
             case "DBCD": currElement = Element.Frost;
-                if (gameManager.mana < 10)
-                {
-                    return false;
-                }
-                gameManager.mana -= 10;
-                return true;
+                return checkSufficientMana(10);
             default: currElement = Element.None;
                 return false;
         }

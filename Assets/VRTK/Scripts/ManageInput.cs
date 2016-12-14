@@ -24,7 +24,6 @@ public class ManageInput : MonoBehaviour {
     private TrailRenderer trail_renderer;
 
     public GameObject camera_rig;
-    public bool isLeft;
 
     private float impactMagnifier = 120f;
 
@@ -92,14 +91,7 @@ public class ManageInput : MonoBehaviour {
 
     void HapticPing()
     {
-        if (isLeft)
-        {
-            SteamVR_Controller.Input((int)camera_rig.GetComponent<SteamVR_ControllerManager>().leftIndex).TriggerHapticPulse((ushort)3999);
-        }
-        else
-        {
             SteamVR_Controller.Input((int)camera_rig.GetComponent<SteamVR_ControllerManager>().rightIndex).TriggerHapticPulse((ushort)3999);
-        }
     }
 
     void TurnPointerOn()
@@ -129,16 +121,6 @@ public class ManageInput : MonoBehaviour {
         //Debug.Log("aim mode disable was called!");
     }
 
-    void SpellbookEnable()
-    {
-
-    }
-
-    void SpellbookDisable()
-    {
-
-    }
-
     // Update is called once per frame
     void Update () {
         device = SteamVR_Controller.Input((int)tracked_object.index);
@@ -165,14 +147,6 @@ public class ManageInput : MonoBehaviour {
         {
             game_manager.UntriggerSpellUI();
             game_manager.mana_charging_on = false;
-        }
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
-        {
-            SpellbookEnable();
-        }
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
-        {
-            SpellbookDisable();
         }
     }
 }
