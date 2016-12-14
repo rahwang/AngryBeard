@@ -38,7 +38,7 @@ public class SpellHitEffect : MonoBehaviour {
 
             int numHearts = col.gameObject.GetComponent<EnemyScript>().health / 10;
             col.gameObject.GetComponent<EnemyScript>().health -= lostHealth;
-            for (int i = 0; i < lostHealth / 2; i++) {
+            for (int i = 0; i < lostHealth / 10; i++) {
                 if (numHearts <= 0) break;
                 Destroy(col.gameObject.GetComponent<EnemyScript>().enemyHealth[numHearts - 1]);
                 numHearts--;

@@ -38,16 +38,16 @@ public class SpellManager : MonoBehaviour {
         switch (currElement)
         {
             case SpellManager.Element.Fire:
-                result *= 3;
+                result *= 5;
                 break;
             case SpellManager.Element.Earth:
                 result *= 10;
                 break;
             case SpellManager.Element.Lightning:
-                result *= 1;
+                result *= 3;
                 break;
             case SpellManager.Element.Frost:
-                result *= 3;
+                result *= 5;
                 break;
             default:
                 break;
