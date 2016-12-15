@@ -24,6 +24,10 @@ public class ManageInput : MonoBehaviour {
     private TrailRenderer trail_renderer;
 
     public GameObject camera_rig;
+    public GameObject cast_fx;
+
+    public AudioClip spell_fire_sound;
+    public AudioClip spell_load_sound;
 
     private float impactMagnifier = 120f;
 
@@ -36,7 +40,9 @@ public class ManageInput : MonoBehaviour {
         controller_events = GetComponent<VRTK_ControllerEvents>();
         controller_actions = GetComponent<VRTK_ControllerActions>();
         trail_renderer = GetComponent<TrailRenderer>();
-	}
+
+        cast_fx.SetActive(false);
+    }
 
 
     void Awake()
@@ -106,6 +112,10 @@ public class ManageInput : MonoBehaviour {
         pointer_script.pointerTipScale = game_manager.spellManager.getCurrentSpellRadius();
 
         pointer_script.enabled = true;
+        GetComponent<AudioSource>().clip = spell_load_sound;
+        GetComponent<AudioSource>().Play();
+
+        cast_fx.SetActive(true);
 
         //Debug.Log("aim mode enable was called!");
     }
@@ -114,10 +124,12 @@ public class ManageInput : MonoBehaviour {
     {
         // Store last pointer tip position
         Vector3 hit_pos = pointer_script.pointerTip.transform.position;
+        GetComponent<AudioSource>().clip = spell_fire_sound;
         GetComponent<AudioSource>().Play();
         game_manager.InstanceSpellHit(hit_pos);
         HapticPulse(3000);
         pointer_script.enabled = false;
+        cast_fx.SetActive(false);
         //Debug.Log("aim mode disable was called!");
     }
 
@@ -127,26 +139,37 @@ public class ManageInput : MonoBehaviour {
         if (transform.position.y < game_manager.headset_trans.position.y)
         {
             game_manager.mana_charging_on = false;
-        }
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+        } else if (!game_manager.mana_charging_on)
         {
-            // Mana charge mode
-            if (transform.position.y > game_manager.headset_trans.position.y) {
-                game_manager.mana_charging_on = true;
-                StartCoroutine(game_manager.ChargeMana());
-            }
-            // Spell cast
-            else
-            {
-                game_manager.TriggerSpellUI(transform);
-            }
+            game_manager.mana_charging_on = true;
+            StartCoroutine(ChargeMana());
+        }
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && !game_manager.mana_charging_on)
+        {
+            game_manager.TriggerSpellUI(transform);
            
             //Debug.Log("trigger pressed :D " + transform.position.x);
         }
         if (device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
         {
             game_manager.UntriggerSpellUI();
-            game_manager.mana_charging_on = false;
+        }
+    }
+
+    public IEnumerator ChargeMana()
+    {
+        Vector3 prev_pos = transform.position;
+        // STOP COROUTINE WHEN LET GO OR LOWER WAND
+        while (game_manager.mana < 100 && game_manager.mana_charging_on)
+        {
+            float delta_pos = (transform.position - prev_pos).magnitude;
+            game_manager.mana += delta_pos * 10;
+            float offset = 0.2f - (game_manager.mana / 100.0f) * 0.4f;
+            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
+            // replace with haptic pulse
+            prev_pos = transform.position;
+            Debug.Log("delta_pos = " + delta_pos);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

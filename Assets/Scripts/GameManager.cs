@@ -22,11 +22,16 @@ public class GameManager : MonoBehaviour {
 
 	private UnityAction someListener;
 
-    public int mana;
+    public float mana;
     public Material manaSphere;
     public bool mana_charging_on = false;
 
     public TowerHealthManager tower;
+
+    public float score = 0;
+
+    public GameObject lightning_bolt_prefab;
+    public Vector3 spell_hit_pos;
 
 	// Use this for initialization
 	void Start () {
@@ -38,23 +43,30 @@ public class GameManager : MonoBehaviour {
         manaSphere = GameObject.Find("ManaSphere").GetComponent<Renderer>().material;
         //tower = GameObject.Find("Tower").GetComponent<TowerHealthManager>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	    if (lose) {
-            endText.GetComponent<TextMesh>().text = "You lose! <}:>( >";
-            endText.GetComponent<AudioSource>().clip = fail_sound;
-            endText.GetComponent<AudioSource>().Play();
 
-            lose = !lose;
-        }
-        int numLivesLost = (100 - tower.towerHealth) / 10;
-        if (numEnemiesKilled + numLivesLost == GetComponent<SpawnEnemies>().num_enemies)
+    public void LoseGame()
+    {
+        endText.GetComponent<TextMesh>().text = "You lose! <}:>( >\nScore: " + numEnemiesKilled * 10;
+        endText.GetComponent<AudioSource>().clip = fail_sound;
+        endText.GetComponent<AudioSource>().Play();
+        endText.GetComponent<AudioSource>().loop = false;
+        lose = true;
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (!lose)
         {
-            endText.GetComponent<TextMesh>().text = "You win! <}:>D >";
-            endText.GetComponent<AudioSource>().clip = victory_sound;
-            endText.GetComponent<AudioSource>().Play();
-            numEnemiesKilled = 0;
+            int numLivesLost = (100 - tower.towerHealth) / 10;
+            if (numEnemiesKilled + numLivesLost == GetComponent<SpawnEnemies>().num_enemies)
+            {
+                endText.GetComponent<TextMesh>().text = "You win! <}:>D >\nScore: " + numEnemiesKilled * 10;
+                endText.GetComponent<AudioSource>().clip = victory_sound;
+                endText.GetComponent<AudioSource>().Play();
+                endText.GetComponent<AudioSource>().loop = false;
+                numEnemiesKilled = 0;
+                lose = true;
+            }
         }
 	}
 
@@ -128,6 +140,13 @@ public class GameManager : MonoBehaviour {
         GameObject spell_prefab = spellManager.getCurrentSpellEffect();
         GameObject spell = (GameObject) Instantiate(spell_prefab, spawn_pos, spawn_rot);
         spell.GetComponent<SpellHitEffect>().type = spellManager.currElement;
+        if (spellManager.currElement == SpellManager.Element.Lightning)
+        {
+            GameObject temp = (GameObject)Instantiate(lightning_bolt_prefab, spawn_pos, spawn_rot);
+            temp.transform.parent = spell.transform;
+            spell_hit_pos = spawn_pos;
+
+        }
         spell.transform.localScale = spellManager.getCurrentSpellRadius();
 
     }
@@ -154,24 +173,11 @@ public class GameManager : MonoBehaviour {
         if (spellManager.loadSpell(current_cast_string))
         {
             StartAimMode();
-            Color newMana = new Color(0, 0, mana / 100.0f);
-            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
+            //Color newMana = new Color(0, 0, mana / 100.0f);
+            float offset = 0.2f - (mana / 100.0f)*0.4f;
+            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
+            //GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
         }
         Debug.Log(current_cast_string);
-    }
-
-    public IEnumerator ChargeMana()
-    {
-        // STOP COROUTINE WHEN LET GO OR LOWER WAND
-        while (mana <= 90 && mana_charging_on)
-        {
-            mana += 10;
-            Color newMana = new Color(0, 0, mana / 100.0f);
-            //manaSphere.SetColor("_Color", newMana);
-            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
-            // replace with haptic pulse
-            Debug.Log("gained mana to " + mana);
-            yield return new WaitForSeconds(1);
-        }
     }
 }

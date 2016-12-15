@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CastPoint
   - Enemy
+  - Lightning
   layers:
   - Default
   - TransparentFX

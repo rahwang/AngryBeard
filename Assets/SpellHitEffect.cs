@@ -24,10 +24,10 @@ public class SpellHitEffect : MonoBehaviour {
 
             switch (type) {
                 case SpellManager.Element.Fire:
-                    lostHealth = 20;
+                    lostHealth = 10;
                     break;
                 case SpellManager.Element.Earth:
-                    lostHealth = 10;
+                    lostHealth = 0;
                     break;
                 case SpellManager.Element.Lightning:
                     lostHealth = 20;

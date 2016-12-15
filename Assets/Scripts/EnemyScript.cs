@@ -26,19 +26,19 @@ public class EnemyScript : MonoBehaviour {
         switch (type)
         {
             case SpellManager.Element.Fire: gameObject.GetComponent<Renderer>().material = FireMat;
-                health = 10;
+                health = 20;
                 baseSpeed = speed = 0.25f;
                 break;
             case SpellManager.Element.Frost: gameObject.GetComponent<Renderer>().material = FrostMat;
-                health = 20;
+                health = 30;
                 baseSpeed = speed = 0.125f;
                 break;
             case SpellManager.Element.Lightning: gameObject.GetComponent<Renderer>().material = LightningMat;
-                health = 10;
+                health = 20;
                 baseSpeed = speed = 0.25f;
                 break;
             case SpellManager.Element.Earth: gameObject.GetComponent<Renderer>().material = EarthMat;
-                health = 20;
+                health = 40;
                 baseSpeed = speed = 0.125f;
                 break;
         }
