@@ -173,11 +173,14 @@ public class GameManager : MonoBehaviour {
         if (spellManager.loadSpell(current_cast_string))
         {
             StartAimMode();
-            //Color newMana = new Color(0, 0, mana / 100.0f);
-            float offset = 0.2f - (mana / 100.0f)*0.4f;
-            GameObject.Find("ManaSphere").GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
-            //GameObject.Find("ManaSphere").GetComponent<Renderer>().material.color = newMana;
+            UpdateManaUI();
         }
         Debug.Log(current_cast_string);
+    }
+
+    public void UpdateManaUI()
+    {
+        float offset = 0.2f - (mana / 100.0f) * 0.4f;
+        GameObject.Find("ManaSphere").GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
     }
 }

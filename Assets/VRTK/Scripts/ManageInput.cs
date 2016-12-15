@@ -31,6 +31,9 @@ public class ManageInput : MonoBehaviour {
 
     private float impactMagnifier = 120f;
 
+    public GameObject fire_bomb;
+    private bool fire_spell_mode = false;
+
     // Use this for initialization
     void Start () {
         pointer_script = GetComponent<VRTK_SimplePointer>();
@@ -117,17 +120,30 @@ public class ManageInput : MonoBehaviour {
 
         cast_fx.SetActive(true);
 
+        // Special case for fire death ray.
+        if (spell == SpellManager.Element.Fire)
+        {
+            fire_spell_mode = true;
+            StartCoroutine("DeathRay");
+        }
+
         //Debug.Log("aim mode enable was called!");
     }
 
     void TurnPointerOff()
     {
         // Store last pointer tip position
-        Vector3 hit_pos = pointer_script.pointerTip.transform.position;
-        GetComponent<AudioSource>().clip = spell_fire_sound;
-        GetComponent<AudioSource>().Play();
-        game_manager.InstanceSpellHit(hit_pos);
-        HapticPulse(3000);
+        if (!fire_spell_mode)
+        {
+            Vector3 hit_pos = pointer_script.pointerTip.transform.position;
+            GetComponent<AudioSource>().clip = spell_fire_sound;
+            GetComponent<AudioSource>().Play();
+            game_manager.InstanceSpellHit(hit_pos);
+            HapticPulse(3000);
+        } else
+        {
+            fire_spell_mode = false;
+        }
         pointer_script.enabled = false;
         cast_fx.SetActive(false);
         //Debug.Log("aim mode disable was called!");
@@ -139,7 +155,7 @@ public class ManageInput : MonoBehaviour {
         if (transform.position.y < game_manager.headset_trans.position.y)
         {
             game_manager.mana_charging_on = false;
-        } else if (!game_manager.mana_charging_on)
+        } else if (!game_manager.mana_charging_on && !fire_spell_mode)
         {
             game_manager.mana_charging_on = true;
             StartCoroutine(ChargeMana());
@@ -163,7 +179,7 @@ public class ManageInput : MonoBehaviour {
         while (game_manager.mana < 100 && game_manager.mana_charging_on)
         {
             float delta_pos = (transform.position - prev_pos).magnitude;
-            game_manager.mana += delta_pos * 10;
+            game_manager.mana += delta_pos * 7.5f;
             float offset = 0.2f - (game_manager.mana / 100.0f) * 0.4f;
             GameObject.Find("ManaSphere").GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
             // replace with haptic pulse
@@ -171,5 +187,32 @@ public class ManageInput : MonoBehaviour {
             Debug.Log("delta_pos = " + delta_pos);
             yield return new WaitForSeconds(0.05f);
         }
+    }
+
+
+    // Death ray for fire spell
+    public IEnumerator DeathRay()
+    {
+        // STOP COROUTINE WHEN mana is out or player lets go
+        while (game_manager.mana > 0.1f && fire_spell_mode)
+        {
+            Vector3 hit_pos = pointer_script.pointerTip.transform.position;
+
+            Quaternion spawn_rot = game_manager.spellManager.getCurrentSpellRotation();
+            GameObject spell = (GameObject)Instantiate(fire_bomb, hit_pos, spawn_rot);
+            GetComponent<AudioSource>().clip = spell_fire_sound;
+            GetComponent<AudioSource>().Play();
+            HapticPulse(3000);
+
+
+            game_manager.mana -= 2.5f;
+            if (game_manager.mana < 0)
+            {
+                game_manager.mana = 0;
+            }
+            game_manager.UpdateManaUI();
+            yield return new WaitForSeconds(0.05f);
+        }
+        fire_spell_mode = false;
     }
 }
